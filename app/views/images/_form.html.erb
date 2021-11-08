@@ -21,6 +21,11 @@
     <%= form.file_field :caption_image %>
   </div>
 
+  <div class="field">
+    <%= form.label :Images %>
+    <%= form.file_field :caption_images,multiple: true %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
