@@ -15,15 +15,10 @@
     <%= form.label :caption %>
     <%= form.text_field :caption %>
   </div>
-
+  <%= form.hidden_field :user_id,value: current_user.id %>
   <div class="field">
     <%= form.label :Image %>
     <%= form.file_field :caption_image %>
-  </div>
-
-  <div class="field">
-    <%= form.label :Images %>
-    <%= form.file_field :caption_images,multiple: true %>
   </div>
 
   <div class="actions">

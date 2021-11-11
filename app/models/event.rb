@@ -3,17 +3,21 @@ class Event < ApplicationRecord
 	before_save :ensure_description_value
 	validates :location,presence: true
 	validates :title,uniqueness: {message: "title must be unique."}
-	before_save :check_datetime
+	validates :start_time,presence: true
+	validates :end_time,presence: true
+	validate :check_datetime
+	belongs_to :user
 	private
 		def ensure_description_value
 			self.description = "description is not provided yet."
 		end
 		def check_datetime
-			if self.start_time == nil
-				self.start_time = '1/1/2021'
+			if self.start_time == self.end_time
+				errors.add(:start_time,'cant be equal to ending time.')
+			elsif self.start_time > self.end_time
+				errors.add(:start_time,'cant be more that ending time.')
 			end
-			if self.end_time == nil
-				self.end_time = '1/1/2021'
-			end
+
 		end
+
 end

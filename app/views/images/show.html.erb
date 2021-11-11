@@ -4,6 +4,11 @@
   <strong>Caption:</strong>
   <%= @image.caption %>
 </p>
-
-<%= link_to 'Edit', edit_image_path(@image) %> |
+<p>
+	<strong>Image:</strong>
+	<%= image_tag @image.caption_image %>
+</p>
+<% if user_signed_in? && current_user.id == @image&.user&.id %>
+  <%= link_to 'Edit', edit_image_path(@image) %> |
+<% end %>
 <%= link_to 'Back', images_path %>

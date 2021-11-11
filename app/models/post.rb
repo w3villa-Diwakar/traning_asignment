@@ -1,7 +1,7 @@
 class Post < ApplicationRecord
 	validates :title,presence: {message: "Must exist"},length: {minimum: 3,maximum: 25},uniqueness: {message: "Must be unique."}
 	before_save :ensure_description_value
-
+	belongs_to :user
 	private
 		def ensure_description_value
 			self.description = "description is not provided yet."

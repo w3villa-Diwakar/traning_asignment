@@ -3,6 +3,7 @@ class Image < ApplicationRecord
 	validates :caption_image,presence: {message: 'can not be empty.'}
 	validates :caption,length: {minimum: 3,maximum: 20}
 	before_validation :ensure_caption
+	belongs_to :user
 	private
 	def ensure_caption
 		if self.caption.blank?
