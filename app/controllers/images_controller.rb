@@ -1,6 +1,6 @@
 class ImagesController < ApplicationController
   before_action :set_image, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, only: [ :edit, :update, :new, :destroy ]
+  before_action :same_user, only: [ :edit, :update, :new, :destroy ]
   
   # GET /images or /images.json
   def index
@@ -66,5 +66,11 @@ class ImagesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def image_params
       params.require(:image).permit(:caption,:user_id,:caption_image)
+    end
+
+    def same_user
+      unless current_user.id == @image.user.id
+        redirect_to images_path
+      end
     end
 end
