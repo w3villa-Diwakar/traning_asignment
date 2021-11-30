@@ -1,0 +1,14 @@
+<%= form_with(model: @comment) do |form| %>
+  <div class="field">
+    <%= form.label :content, 'New Comment' %>
+    <br>
+    <%= form.text_field :content %>
+    <%= form.hidden_field :commentable_id,value: obj.id %>
+    <%= form.hidden_field :commentable_type,value: obj.class.name %>
+    <%= form.hidden_field :user,value: current_user.id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

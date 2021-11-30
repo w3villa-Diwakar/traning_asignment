@@ -1,0 +1,18 @@
+<h5> All comments of <%= @post.title %> </h5>
+
+<% @comments.each do |comment| %>
+  <% if comment.parent_id == nil %>
+  <div class="card">
+    <br>
+    <strong>user:</strong> 
+    <%= comment.user.name %>
+    <br>
+    <strong>Content:</strong>
+    <%= comment.content %>
+    <% if user_signed_in? && current_user.id == comment.user.id %>
+      <%= link_to 'Edit', edit_comment_path(comment) %>
+      <%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  </div>
+  <% end %>
+<% end %>
