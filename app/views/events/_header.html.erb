@@ -11,6 +11,7 @@
       <li class="nav-item" id="navbar-item">
         <%= link_to 'Images',images_path,class:'nav-link btn btn-outline-secondary' %>
       </li>
+     
       <% if !user_signed_in? %>
         <li class="nav-item" id="navbar-item">
           <%= link_to 'Log In',new_user_session_path,class:'nav-link btn btn-outline-secondary' %>
@@ -27,7 +28,6 @@
           <%= link_to 'My Profile',user_path(current_user),class:'nav-link btn btn-outline-secondary' %>
         </li>
       <% end %>
-      
     </ul>
   </div>
 </nav>

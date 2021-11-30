@@ -20,6 +20,12 @@
     <%= form.label :Image %>
     <%= form.file_field :caption_image %>
   </div>
+  <% Category.all.each do |c| %>
+    <div>
+      <%= check_box_tag :category_ids, c.id, image.categories.include?(c), :name => 'image[category_ids][]' %>
+      <%= label_tag :category_ids, c.name %>
+    </div>
+  <% end %>
 
   <div class="actions">
     <%= form.submit %>

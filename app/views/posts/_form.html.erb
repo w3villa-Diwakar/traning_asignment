@@ -10,7 +10,7 @@
       </ul>
     </div>
   <% end %>
-
+  
   <div class="field">
     <%= form.label :title %>
     <%= form.text_field :title %>
@@ -22,7 +22,35 @@
     <%= form.text_area :description %>
   </div>
 
+  <h5>Category: </h5>
+    <% Category.all.each.with_index do |c, index| %>
+    <%= c.id%>
+  <%#= form.fields_for "categorizes_attributes[#{index}]" do |ff| %>
+  <%= form.fields_for "categorizes_attributes[#{index}]" do |ff| %>
+      <div>
+        <%#= ff.hidden_field :id, {value: post.categorizes.find_by(category_id: c.id).try(:id)} %>
+        <%#= ff.hidden_field :_destroy,value: post.categories.include?(c)  %>
+        <%#= ff.check_box :category_id, {checked: post.categories.include?(c)}, c.id,nil %>
+
+        <%= ff.hidden_field :categorizable_type,value: post.class.name %>
+        <%= ff.hidden_field :categorizable_id,value: post.id %>
+        <%= ff.check_box :category_id, {checked: post.categories.include?(c)},c.id,nil %>
+        <%= ff.hidden_field :_destroy,value: post.categories.none { |p| p==c }  %>
+
+
+        <!-- <input type="hidden" value="<%= post.class.name %>" name="user[categorizes_attributes][<%= index %>][categorizable_type]">
+        <input type="hidden" value="<%= post.id %>" name="user[categorizes_attributes][<%= index %>][categorizable_id]">
+
+        <input type="checkbox" value="true" name="user[categorizes_attributes][<%= index %>][_destroy]">
+        <input type="hidden" value="true" name="user[categorizes_attributes][<%= index %>][_destroy]"> -->
+  
+        <%= ff.label :category_id, c.name %>       
+      </div>
+    <% end %>
+  <% end %>
+  
   <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
+

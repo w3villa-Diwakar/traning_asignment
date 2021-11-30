@@ -10,6 +10,8 @@ class EventsController < ApplicationController
 
   # GET /events/1 or /events/1.json
   def show
+    @comment = Comment.new
+    @comments = @event.comments.all
   end
 
   # GET /events/new
@@ -66,7 +68,7 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:title, :description, :location, :start_time, :end_time,:user_id)
+      params.require(:event).permit(:title, :description, :location, :start_time, :end_time,:user_id,category_ids: [])
     end
 
     def same_user

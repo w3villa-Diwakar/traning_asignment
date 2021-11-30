@@ -27,4 +27,12 @@
 <% if user_signed_in? && current_user.id == @event.user.id %>
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <% end %>
+
+<%= render 'comments',comments: @comments %>
+
+
+<% if user_signed_in? && current_user.id == @event.user.id %>
+  <%= render 'new_comment',obj: @event %>
+<% end %>
+<br>
 <%= link_to 'Back', events_path %>

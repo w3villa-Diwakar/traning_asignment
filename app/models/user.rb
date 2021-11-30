@@ -8,5 +8,14 @@ class User < ApplicationRecord
   has_many :posts
   has_many :events
   has_many :images
+  has_many :comments
+  belongs_to :role
 
+  before_validation :set_role
+
+  def set_role
+    if self.role == nil
+      self.role_id = 2
+    end
+  end
 end

@@ -11,4 +11,12 @@
 <% if user_signed_in? && current_user.id == @image&.user&.id %>
   <%= link_to 'Edit', edit_image_path(@image) %> |
 <% end %>
+
+
+<%= render 'events/comments',comments: @comments %>
+
+<% if user_signed_in? && current_user.id == @image.user.id %>
+  <%= render 'events/new_comment',obj: @image %>
+<% end %>
+<br>
 <%= link_to 'Back', images_path %>

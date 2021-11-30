@@ -10,6 +10,8 @@ class ImagesController < ApplicationController
 
   # GET /images/1 or /images/1.json
   def show
+    @comment = Comment.new
+    @comments = @image.comments.all
   end
 
   # GET /images/new
@@ -66,7 +68,7 @@ class ImagesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def image_params
-      params.require(:image).permit(:caption,:user_id,:caption_image)
+      params.require(:image).permit(:caption,:user_id,:caption_image,category_ids: [])
     end
 
     def same_user

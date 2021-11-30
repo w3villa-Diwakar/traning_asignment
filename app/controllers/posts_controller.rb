@@ -2,26 +2,37 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :authenticate_user!,only: [:new,:update,:edit,:destroy]
   before_action :same_user, only: [ :edit, :update, :destroy ]
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   
-  # GET /posts or /posts.json
+  
   def index
-    @posts = Post.all
+    @q = Post.ransack(params[:q])
+    @posts = @q.result.includes(:user)
   end
 
-  # GET /posts/1 or /posts/1.json
+
+  def comments
+    @post = Post.find(params[:id])
+    @comments = @post.comments
+  end
+  
   def show
+    @comment = Comment.new
+    @comments = @post.comments.all
   end
 
-  # GET /posts/new
+
   def new
     @post = Post.new
+    @categorizes = Categorize.all
   end
 
-  # GET /posts/1/edit
+  
   def edit
+    @categorizes = Categorize.all
   end
 
-  # POST /posts or /posts.json
+  
   def create
     @post = Post.new(post_params)
 
@@ -36,9 +47,11 @@ class PostsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /posts/1 or /posts/1.json
   def update
     respond_to do |format|
+      if params[:_destroy] == true
+        @post.categorizes
+      end
       if @post.update(post_params)
         format.html { redirect_to @post, notice: "Post was successfully updated." }
         format.json { render :show, status: :ok, location: @post }
@@ -49,7 +62,6 @@ class PostsController < ApplicationController
     end
   end
 
-  # DELETE /posts/1 or /posts/1.json
   def destroy
     @post.destroy
     respond_to do |format|
@@ -59,14 +71,12 @@ class PostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :description,:user_id)
+      params.require(:post).permit(:title, :description,:user_id,categorizes_attributes: [:id,:category_id,:categorizable_type,:categorizable_id,:_destroy])
     end
 
     def same_user
@@ -74,4 +84,9 @@ class PostsController < ApplicationController
         redirect_to posts_path
       end
     end
+    def record_not_found
+      render plain: "404 Not Found", status: 404
+    end
+    
+    
 end
