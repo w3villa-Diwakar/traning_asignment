@@ -64,10 +64,11 @@ ActiveRecord::Schema.define(version: 2021_11_29_110459) do
     t.string "content"
     t.integer "commentable_id"
     t.string "commentable_type"
-    t.integer "user_id", null: false
+    t.integer "User_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "parent_id"
+    t.index ["User_id"], name: "index_comments_on_User_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -80,12 +81,6 @@ ActiveRecord::Schema.define(version: 2021_11_29_110459) do
     t.integer "user_id"
     t.text "description"
     t.string "slug"
-  end
-
-  create_table "hobbies", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "images", force: :cascade do |t|
@@ -129,5 +124,5 @@ ActiveRecord::Schema.define(version: 2021_11_29_110459) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "comments", "Users", column: "user_id"
+  add_foreign_key "comments", "Users"
 end
